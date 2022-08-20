@@ -1,0 +1,192 @@
+# JSDB [WWW](https://github.com/totemstan/jsdb)  [COE](https://sc.appdev.proj.coe/acmesds/jsdb)  [SBU](https://gitlab.west.nga.ic.gov/acmesds/jsdb)
+
+Provides mysql and neo4j agnosticators, data stashing and ingesting methods.
+
+## mysql database
+
+**JSDB** allows access using a classic query:
+
+	const JSDB = require("jsdb");
+	
+	sqlThread( sql => {
+	
+		// classic query
+
+		sql.query( "...", [ ... ], (err,info) => {
+		});
+		
+		// crud helpers:
+
+		sql.Index(ds, query, (keys,jsons) => { ... })
+		sql.Delete(ds,where, (err,info) => { ... })
+		sql.Update(ds,where,body,(err,info) => { ... })
+		sql.Insert (ds,body,(err,info) => { ... } )
+		sql.Select(ds, index, where, opts, (err,recs) => { ... })
+
+		// there are also various enumerators and other utility functions.
+
+	});
+
+**JSDB** also provides a (somewhat experimental) method to access datasets by context:
+
+	sqlThread( sql => {
+	
+		sql.context( {ds1:ATTRIBUTES, ds2:ATTRIBUTES, ... }, ctx => {
+
+			const {ds1,ds2, ... } = ctx;
+
+		});
+		
+	});
+
+where dsN are datasets having context ATTRIBUTES = {key:value, ... } described below. 
+
+Using dataset contexts, **JSDB** permits queries of the form:
+
+	ds.rec = { FIELD:VALUE, ... }			// update matched record(s) 
+	ds.rec = [ {...}, {...}, ... ]			// insert record(s)
+	ds.rec = null 							// delete matched record(s)
+	ds.rec = function CB(recs,me) {...}		// select matched record(s)
+
+or like this:
+
+	ds.res = callback() { ... }
+	ds.data = [ ... ]
+	ds.rec = CRUDE
+
+or in record-locked mode using:
+
+	ds.rec = "lock.select"
+	ds.rec = "lock.delete"
+	ds.rec = "lock.update"
+	ds.rec = "lock.insert"
+
+Dataset ATTRIBUTES = { key: value, ... } provide SQL agnostication:
+
+	table: 	DB.TABLE || TABLE
+	where: 	[ FIELD, FIELD, ... ] | { CLAUSE:null, nlp:PATTERN, bin:PATTERN, qex:PATTERN, has:PATTERN, like:PATTERN, FIELD:VALUE, FIELD:[MIN,MAX], ...} | CLAUSE
+	res: 	function CB(ds) {...}
+	having: [ FIELD, VALUE ] | [ FIELD, MIN, MAX ] | {FIELD:VALUE, CLAUSE:null, FIELD:[MIN,MAX], ...} | CLAUSE
+	order: 	[ {FIELD:ORDER, ...}, {property:FIELD, direction:ORDER}, FIELD, ...] | "FIELD, ..."
+	group: 	[ FIELD, ...] | "FIELD, ..."
+	limit: 	[ START, COUNT ] | {start:START, count:COUNT} | "START,COUNT"
+	index:	[ FIELD, ... ] | "FIELD, ... " | { has:PATTERN, nlp:PATTERN, bin:PATTERN, qex:PATTERN, browse:"FIELD,...", pivot: "FIELD,..." }
+
+In addition, update journalling, search tracking, query broadcasting, and auto field conversion is 
+supported using these ATTRIBUTES:
+
+	unsafeok: 	[true] | false 		// allow potentially unsafe queries
+	trace: [true] | false			// trace queries
+	journal: true | [false] 		// enable table journalling
+	search: "field,field,..." 		// define fulltext search fields
+	track: true | [false] 		// enable search tracking
+	ag: "..." 		// aggregate where/having with least(?,1), greatest(?,0), sum(?), ...
+
+The select query will callback the CB = [each || all || clone || trace] handler with each/all record(s) matched 
+by .where, indexed by  .index, ordered by .order ordering, grouped by .group, filtered by .having 
+and limited by .limit ATTRIBUTES.  Select will search for PATTERN 
+using its index.nlp (natural language parse), index.bin (binary mode), index.qex (query expansion), 
+or group recording according to its index.browse (file navigation) or index.pivot (joint statistics).
+
+Non-select queries will broadcast a change to all clients if a where.ID is presented (and an emiitter
+was configured), and will journal the change when jounalling is enabled.
+
+## neo4j database
+
+**JSDB** also provides a cypher connector to the neo4j database:
+
+	const {neoThread, cyper} = JSDB = require("jsdb");
+	
+	neoThread( neo => {	
+		neo.cypher( "...", [ ... ], (err,recs) => {
+		});
+	});
+
+## Usage
+
+**JSDB** is configured and started like this:
+
+	const JSDB = require("./jsdb");
+	
+	JSDB.config({ 
+	
+		emit:  (crude,parms) => {  // method to bradcast changes to other socket.io clients
+		}, 
+		
+		mysql : {	// 	database connection parms
+			host: ...
+			user: ...
+			pass: ...
+		}
+
+	});
+
+where its configuration keys (
+[WWW](http://totem.zapto.org/shares/prm/totem/index.html) 
+[COE](https://totem.west.ile.nga.ic.gov/shares/prm/totem/index.html) 
+[SBU](https://totem.nga.mil/shares/prm/totem/index.html)
+)
+follow the **ENUMS** deep copy conventions (
+[WWW](https://github.com/totemstan/enum) 
+[COE](https://sc.appdev.proj.coe/acmesds/enum) 
+[SBU](https://gitlab.west.nga.ic.gov/acmesds/enum)
+).
+	
+## Installation
+
+Clone **JSDB** from one of its repos:
+
+	git clone https://github.com/totemstan/jsdb
+	git clone https://sc.appdev.proj.coe/acmesds/jsdb
+	git clone https://gitlab.west.nga.ic.gov/acmesds/jsdb
+
+## Manage 
+
+	npm test [ ? || B1 || B2 || ... ]	# unit test
+	npm run [ edit || start ]			# Configure environment
+	npm run [ prmprep || prmload ]		# Revise PRM
+
+## Program Reference
+<details>
+<summary>
+<i>Open/Close</i>
+</summary>
+{{>main}}
+</details>
+
+## Contacting, Contributing, Following
+
+Feel free to 
+* submit and status **TOTEM** issues (
+[WWW](http://totem.zapto.org/issues.view) 
+[COE](https://totem.west.ile.nga.ic.gov/issues.view) 
+[SBU](https://totem.nga.mil/issues.view)
+)  
+* contribute to **TOTEM** notebooks (
+[WWW](http://totem.zapto.org/shares/notebooks/) 
+[COE](https://totem.west.ile.nga.ic.gov/shares/notebooks/) 
+[SBU](https://totem.nga.mil/shares/notebooks/)
+)  
+* revise **TOTEM** requirements (
+[WWW](http://totem.zapto.org/reqts.view) 
+[COE](https://totem.west.ile.nga.ic.gov/reqts.view) 
+[SBU](https://totem.nga.mil/reqts.view), 
+)  
+* browse **TOTEM** holdings (
+[WWW](http://totem.zapto.org/) 
+[COE](https://totem.west.ile.nga.ic.gov/) 
+[SBU](https://totem.nga.mil/)
+)  
+* or follow **TOTEM** milestones (
+[WWW](http://totem.zapto.org/milestones.view) 
+[COE](https://totem.west.ile.nga.ic.gov/milestones.view) 
+[SBU](https://totem.nga.mil/milestones.view)
+).
+
+## License
+
+[MIT](LICENSE)
+
+* * *
+
+&copy; 2012 ACMESDS
