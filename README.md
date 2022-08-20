@@ -134,11 +134,10 @@ follow the **ENUMS** deep copy conventions (
 	
 ## Installation
 
-Clone **JSDB** from one of its repos:
+Clone **JSDB** from one of its REPOs:
 
-	git clone https://github.com/totemstan/jsdb
-	git clone https://sc.appdev.proj.coe/acmesds/jsdb
-	git clone https://gitlab.west.nga.ic.gov/acmesds/jsdb
+	cd MYPROJECT
+	git clone REPO/totemstan/enums
 
 ## Manage 
 
