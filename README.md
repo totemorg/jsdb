@@ -172,7 +172,7 @@ documented in accordance with <a href="https://jsdoc.app/">jsdoc</a>.</p>
 Provides mysql and neo4j agnosticators as well task queueing.  This module 
 documented in accordance with [jsdoc](https://jsdoc.app/).
 
-**Requires**: <code>module:[enums](https://github.com/totemstan/enums)</code>, <code>module:cluster</code>, <code>module:os</code>, <code>module:fs</code>  
+**Requires**: <code>module:[enums](https://github.com/totemstan/enums)</code>, <code>module:[cluster](https://nodejs.org/docs/latest/api/)</code>, <code>module:[os](https://nodejs.org/docs/latest/api/)</code>, <code>module:[fs](https://nodejs.org/docs/latest/api/)</code>  
 **Author**: [ACMESDS](https://totemstan.github.io)
 
 ### Dataset Dependencies

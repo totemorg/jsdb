@@ -82,9 +82,9 @@ documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 	URL_LEXNEX=https:$KEY_LEXNEX//services-api.lexisnexis.com/v1/
 
 @requires [enums](https://github.com/totemstan/enums)
-@requires cluster
-@requires os
-@requires fs
+@requires [cluster](https://nodejs.org/docs/latest/api/)
+@requires [os](https://nodejs.org/docs/latest/api/)
+@requires [fs](https://nodejs.org/docs/latest/api/)
 
 @example
 Create dataset on a new sql thread:
