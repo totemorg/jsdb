@@ -2,12 +2,116 @@
 
 Provides mysql and neo4j agnosticators, data stashing and ingesting methods.
 
-## mysql database
+## Usage
 
-**JSDB** allows access using a classic query:
+Require and optionally configure **JSDB** as follows:
 
-	const JSDB = require("jsdb");
+	const JSDB = require("./jsdb").config({
+		key: value, 						// set key
+		"key.key": value, 					// indexed set
+		"key.key.": value					// indexed append
+	});
 	
+where its configuration keys (
+[WWW](http://totem.zapto.org/shares/prm/totem/index.html) 
+[COE](https://totem.west.ile.nga.ic.gov/shares/prm/totem/index.html) 
+[SBU](https://totem.nga.mil/shares/prm/totem/index.html)
+)
+follow the **ENUMS** deep copy conventions (
+[WWW](https://github.com/totemstan/enum) 
+[COE](https://sc.appdev.proj.coe/acmesds/enum) 
+[SBU](https://gitlab.west.nga.ic.gov/acmesds/enum)
+).
+See the Program Reference for examples.
+	
+## Installation
+
+Clone **JSDB** from one of its REPOs:
+
+	cd MYPROJECT
+	git clone REPO/totemstan/enums
+
+To configure and maintain **JSDB**:
+
+	npm test [ ? | ... ]				# unit test
+	npm run [ edit | start ]			# Configure environment
+	npm run [ prmprep | prmload ]		# Revise PRM
+
+## Program Reference
+<details>
+<summary>
+<i>Open/Close</i>
+</summary>
+## Modules
+
+<dl>
+<dt><a href="#module_JSDB">JSDB</a></dt>
+<dd><p>Provides mysql and neo4j agnosticators as well task queueing.  This module 
+documented in accordance with <a href="https://jsdoc.app/">jsdoc</a>.</p>
+</dd>
+</dl>
+
+## Functions
+
+<dl>
+<dt><a href="#parseWild">parseWild()</a></dt>
+<dd></dd>
+</dl>
+
+<a name="module_JSDB"></a>
+
+## JSDB
+Provides mysql and neo4j agnosticators as well task queueing.  This module 
+documented in accordance with [jsdoc](https://jsdoc.app/).
+
+**Requires**: <code>module:[enums](https://github.com/totemstan/enums)</code>, <code>module:[cluster](https://nodejs.org/docs/latest/api/)</code>, <code>module:[os](https://nodejs.org/docs/latest/api/)</code>, <code>module:[fs](https://nodejs.org/docs/latest/api/)</code>  
+**Author**: [ACMESDS](https://totemstan.github.io)
+
+### Dataset Dependencies
+
+	openv.hawks Queried for moderaters when journalling a dataset.
+	openv.journal	Updated with changes when journalling enabled.
+	openv.locks Updated when record locks used (e.g. using forms).
+	openv.files Databrick files when saving stashes
+	openv._stats Databrick stats when saving stashes
+	openv.events For storing event data during saving stashes
+	openv.profile Client information to manage task queues
+	openv.queues Task queues managed by regulator
+	openv.cache Place to cache data
+
+### Env Dependencies
+
+	URL_MYSQL=http://$KEY_MYSQL@localhost:3306
+	URL_NEO4J=http://$KEY_NEO4J@localhost:7474
+	URL_TXMAIL=http://$KEY_TXMAIL@smtp.comcast.net:587
+	URL_RXMAIL=
+	URL_LEXNEX=https:$KEY_LEXNEX//services-api.lexisnexis.com/v1/  
+**Example**  
+```js
+Require it:
+
+	const {neoThread, cyper, config} = JSDB = require("jsdb");
+```
+**Example**  
+```js
+Configure the mysql emitters and database
+	config({ 
+	
+		emit:  (crude,parms) => {  // method to broadcast changes to other socket.io clients
+		}, 
+		
+		mysql : {	// 	database connection parms
+			host: ...
+			user: ...
+			pass: ...
+		}
+
+	});
+```
+**Example**  
+```js
+Classic mysql access:
+
 	sqlThread( sql => {
 	
 		// classic query
@@ -26,8 +130,10 @@ Provides mysql and neo4j agnosticators, data stashing and ingesting methods.
 		// there are also various enumerators and other utility functions.
 
 	});
-
-**JSDB** also provides a (somewhat experimental) method to access datasets by context:
+```
+**Example**  
+```js
+Somewhat experimental method to access mysql datasets by context:
 
 	sqlThread( sql => {
 	
@@ -90,110 +196,16 @@ or group recording according to its index.browse (file navigation) or index.pivo
 
 Non-select queries will broadcast a change to all clients if a where.ID is presented (and an emiitter
 was configured), and will journal the change when jounalling is enabled.
+```
+**Example**  
+```js
+Access the neo4j database:
 
-## neo4j database
-
-**JSDB** also provides a cypher connector to the neo4j database:
-
-	const {neoThread, cyper} = JSDB = require("jsdb");
-	
 	neoThread( neo => {	
 		neo.cypher( "...", [ ... ], (err,recs) => {
 		});
 	});
-
-## Usage
-
-**JSDB** is configured and started like this:
-
-	const JSDB = require("./jsdb");
-	
-	JSDB.config({ 
-	
-		emit:  (crude,parms) => {  // method to bradcast changes to other socket.io clients
-		}, 
-		
-		mysql : {	// 	database connection parms
-			host: ...
-			user: ...
-			pass: ...
-		}
-
-	});
-
-where its configuration keys (
-[WWW](http://totem.zapto.org/shares/prm/totem/index.html) 
-[COE](https://totem.west.ile.nga.ic.gov/shares/prm/totem/index.html) 
-[SBU](https://totem.nga.mil/shares/prm/totem/index.html)
-)
-follow the **ENUMS** deep copy conventions (
-[WWW](https://github.com/totemstan/enum) 
-[COE](https://sc.appdev.proj.coe/acmesds/enum) 
-[SBU](https://gitlab.west.nga.ic.gov/acmesds/enum)
-).
-	
-## Installation
-
-Clone **JSDB** from one of its REPOs:
-
-	cd MYPROJECT
-	git clone REPO/totemstan/enums
-
-## Manage 
-
-	npm test [ ? || B1 || B2 || ... ]	# unit test
-	npm run [ edit || start ]			# Configure environment
-	npm run [ prmprep || prmload ]		# Revise PRM
-
-## Program Reference
-<details>
-<summary>
-<i>Open/Close</i>
-</summary>
-## Modules
-
-<dl>
-<dt><a href="#module_JSDB">JSDB</a></dt>
-<dd><p>Provides mysql and neo4j agnosticators as well task queueing.  This module 
-documented in accordance with <a href="https://jsdoc.app/">jsdoc</a>.</p>
-</dd>
-</dl>
-
-## Functions
-
-<dl>
-<dt><a href="#parseWild">parseWild()</a></dt>
-<dd></dd>
-</dl>
-
-<a name="module_JSDB"></a>
-
-## JSDB
-Provides mysql and neo4j agnosticators as well task queueing.  This module 
-documented in accordance with [jsdoc](https://jsdoc.app/).
-
-**Requires**: <code>module:[enums](https://github.com/totemstan/enums)</code>, <code>module:[cluster](https://nodejs.org/docs/latest/api/)</code>, <code>module:[os](https://nodejs.org/docs/latest/api/)</code>, <code>module:[fs](https://nodejs.org/docs/latest/api/)</code>  
-**Author**: [ACMESDS](https://totemstan.github.io)
-
-### Dataset Dependencies
-
-	openv.hawks Queried for moderaters when journalling a dataset.
-	openv.journal	Updated with changes when journalling enabled.
-	openv.locks Updated when record locks used (e.g. using forms).
-	openv.files Databrick files when saving stashes
-	openv._stats Databrick stats when saving stashes
-	openv.events For storing event data during saving stashes
-	openv.profile Client information to manage task queues
-	openv.queues Task queues managed by regulator
-	openv.cache Place to cache data
-
-### Env Dependencies
-
-	URL_MYSQL=http://$KEY_MYSQL@localhost:3306
-	URL_NEO4J=http://$KEY_NEO4J@localhost:7474
-	URL_TXMAIL=http://$KEY_TXMAIL@smtp.comcast.net:587
-	URL_RXMAIL=
-	URL_LEXNEX=https:$KEY_LEXNEX//services-api.lexisnexis.com/v1/  
+```
 **Example**  
 ```js
 Create dataset on a new sql thread:
