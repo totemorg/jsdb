@@ -140,7 +140,7 @@ This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 
 where dsN are datasets having context ATTRIBUTES = {key:value, ... } described below. 
 
-Using dataset contexts, **JSDB** permits queries of the form:
+Using dataset contexts, JSDB permits queries of the form:
 
 	ds.rec = { FIELD:VALUE, ... }			// update matched record(s) 
 	ds.rec = [ {...}, {...}, ... ]			// insert record(s)
