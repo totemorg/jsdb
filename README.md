@@ -6,7 +6,7 @@ Provides mysql and neo4j agnosticators, data stashing and ingesting methods.
 
 Require and optionally configure **JSDB** as follows:
 
-	const JSDB = require("./jsdb").config({
+	const JSDB = require("jsdb").config({
 		key: value, 						// set key
 		"key.key": value, 					// indexed set
 		"key.key.": value					// indexed append
