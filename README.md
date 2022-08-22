@@ -88,13 +88,13 @@ This module documented in accordance with [jsdoc](https://jsdoc.app/).
 	URL_LEXNEX=https:$KEY_LEXNEX//services-api.lexisnexis.com/v1/  
 **Example**  
 ```js
-const {neoThread, cyper, config} = JSDB = require("jsdb");
-
-### Configure the mysql emitters and database
+### Require JSDB
+	const {neoThread, cyper, config} = JSDB = require("jsdb");
 ```
 **Example**  
 ```js
-config({ 
+### Configure the mysql emitters and database
+	config({ 
 	
 		emit:  (crude,parms) => {  // method to broadcast changes to other socket.io clients
 		}, 
@@ -106,12 +106,11 @@ config({
 		}
 
 	});
-
-### Classic mysql access
 ```
 **Example**  
 ```js
-sqlThread( sql => {
+### Classic mysql access
+	sqlThread( sql => {
 	
 		// classic query
 
@@ -129,12 +128,11 @@ sqlThread( sql => {
 		// there are also various enumerators and other utility functions.
 
 	});
-
-### Somewhat experimental method to access mysql datasets by context
 ```
 **Example**  
 ```js
-sqlThread( sql => {
+### Somewhat experimental method to access mysql datasets by context
+	sqlThread( sql => {
 	
 		sql.context( {ds1:ATTRIBUTES, ds2:ATTRIBUTES, ... }, ctx => {
 
@@ -195,21 +193,19 @@ or group recording according to its index.browse (file navigation) or index.pivo
 
 Non-select queries will broadcast a change to all clients if a where.ID is presented (and an emiitter
 was configured), and will journal the change when jounalling is enabled.
-
-### Access the neo4j database
 ```
 **Example**  
 ```js
-neoThread( neo => {	
+### Access the neo4j database
+	neoThread( neo => {	
 		neo.cypher( "...", [ ... ], (err,recs) => {
 		});
 	});
-
-### Create dataset on a new sql thread
 ```
 **Example**  
 ```js
-sqlThread( sql => {
+### Create dataset on a new sql thread
+	sqlThread( sql => {
 	
 		var ds = new JSDB.DS(sql,{
 			table:"test.x", 
@@ -218,11 +214,11 @@ sqlThread( sql => {
 		
 	});
 	
-### Create dataset and access each record
 ```
 **Example**  
 ```js
-var ds = new JSDB.DS(sql,{
+### Create dataset and access each record
+	var ds = new JSDB.DS(sql,{
 		table:"test.x",
 		limit:[0,1],
 		rec: function each(rec) {console.log(rec)}
@@ -248,11 +244,11 @@ var ds = new JSDB.DS(sql,{
 		rec: function each(rec) {console.log(rec)}
 	});
 	
-### Create dataset and access all records
 ```
 **Example**  
 ```js
-var ds = new JSDB.DS(sql,{
+### Create dataset and access all records
+	var ds = new JSDB.DS(sql,{
 		table:"test.x",
 		trace:1,
 		where:{
@@ -278,25 +274,25 @@ var ds = new JSDB.DS(sql,{
 		rec: (recs) => console.log(recs)
 	});
 	
-### Select ds record(s) matched by ds.where
 ```
 **Example**  
 ```js
-ds.where = {ID: "ID=1"};
+### Select ds record(s) matched by ds.where
+	ds.where = {ID: "ID=1"};
 	ds.rec = (rec) => console.log(rec);
 	
-### Delete ds record(s) matched by ds.where
 ```
 **Example**  
 ```js
-ds.where = {ID:"ID=2"}
+### Delete ds record(s) matched by ds.where
+	ds.where = {ID:"ID=2"}
 	ds.rec = null
 	
-### Update ds record(s) matched by ds.where
 ```
 **Example**  
 ```js
-ds.where = null
+### Update ds record(s) matched by ds.where
+	ds.where = null
 	ds.rec = [{a:1,b:2,ds:"hello"},{a:10,b:20,x:"there"}]
 	ds.where = {ID: "ID=3"}
 	ds.rec = {a:100} 

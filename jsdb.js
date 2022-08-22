@@ -86,12 +86,12 @@ This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 @requires [os](https://nodejs.org/docs/latest/api/)
 @requires [fs](https://nodejs.org/docs/latest/api/)
 
-### Require JSDB
 @example
+### Require JSDB
 	const {neoThread, cyper, config} = JSDB = require("jsdb");
 
-### Configure the mysql emitters and database
 @example
+### Configure the mysql emitters and database
 	config({ 
 	
 		emit:  (crude,parms) => {  // method to broadcast changes to other socket.io clients
@@ -105,8 +105,8 @@ This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 
 	});
 
-### Classic mysql access
 @example
+### Classic mysql access
 	sqlThread( sql => {
 	
 		// classic query
@@ -126,8 +126,8 @@ This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 
 	});
 
-### Somewhat experimental method to access mysql datasets by context
 @example
+### Somewhat experimental method to access mysql datasets by context
 	sqlThread( sql => {
 	
 		sql.context( {ds1:ATTRIBUTES, ds2:ATTRIBUTES, ... }, ctx => {
@@ -190,15 +190,15 @@ or group recording according to its index.browse (file navigation) or index.pivo
 Non-select queries will broadcast a change to all clients if a where.ID is presented (and an emiitter
 was configured), and will journal the change when jounalling is enabled.
 
-### Access the neo4j database
 @example
+### Access the neo4j database
 	neoThread( neo => {	
 		neo.cypher( "...", [ ... ], (err,recs) => {
 		});
 	});
 
-### Create dataset on a new sql thread
 @example
+### Create dataset on a new sql thread
 	sqlThread( sql => {
 	
 		var ds = new JSDB.DS(sql,{
@@ -208,8 +208,8 @@ was configured), and will journal the change when jounalling is enabled.
 		
 	});
 	
-### Create dataset and access each record
 @example
+### Create dataset and access each record
 	var ds = new JSDB.DS(sql,{
 		table:"test.x",
 		limit:[0,1],
@@ -236,8 +236,8 @@ was configured), and will journal the change when jounalling is enabled.
 		rec: function each(rec) {console.log(rec)}
 	});
 	
-### Create dataset and access all records
 @example
+### Create dataset and access all records
 	var ds = new JSDB.DS(sql,{
 		table:"test.x",
 		trace:1,
@@ -264,18 +264,18 @@ was configured), and will journal the change when jounalling is enabled.
 		rec: (recs) => console.log(recs)
 	});
 	
-### Select ds record(s) matched by ds.where
 @example
+### Select ds record(s) matched by ds.where
 	ds.where = {ID: "ID=1"};
 	ds.rec = (rec) => console.log(rec);
 	
-### Delete ds record(s) matched by ds.where
 @example
+### Delete ds record(s) matched by ds.where
 	ds.where = {ID:"ID=2"}
 	ds.rec = null
 	
-### Update ds record(s) matched by ds.where
 @example
+### Update ds record(s) matched by ds.where
 	ds.where = null
 	ds.rec = [{a:1,b:2,ds:"hello"},{a:10,b:20,x:"there"}]
 	ds.where = {ID: "ID=3"}
