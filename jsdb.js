@@ -86,12 +86,11 @@ This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 @requires [os](https://nodejs.org/docs/latest/api/)
 @requires [fs](https://nodejs.org/docs/latest/api/)
 
-## Require JSDB
+### Require JSDB
 @example
-
 	const {neoThread, cyper, config} = JSDB = require("jsdb");
 
-## Configure the mysql emitters and database
+### Configure the mysql emitters and database
 @example
 	config({ 
 	
@@ -106,9 +105,8 @@ This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 
 	});
 
+### Classic mysql access
 @example
-// Classic mysql access:
-
 	sqlThread( sql => {
 	
 		// classic query
@@ -128,9 +126,8 @@ This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 
 	});
 
+### Somewhat experimental method to access mysql datasets by context
 @example
-// Somewhat experimental method to access mysql datasets by context:
-
 	sqlThread( sql => {
 	
 		sql.context( {ds1:ATTRIBUTES, ds2:ATTRIBUTES, ... }, ctx => {
@@ -193,15 +190,14 @@ or group recording according to its index.browse (file navigation) or index.pivo
 Non-select queries will broadcast a change to all clients if a where.ID is presented (and an emiitter
 was configured), and will journal the change when jounalling is enabled.
 
+### Access the neo4j database
 @example
-// Access the neo4j database:
-
 	neoThread( neo => {	
 		neo.cypher( "...", [ ... ], (err,recs) => {
 		});
 	});
 
-Create dataset on a new sql thread.
+### Create dataset on a new sql thread
 @example
 	sqlThread( sql => {
 	
@@ -212,8 +208,7 @@ Create dataset on a new sql thread.
 		
 	});
 	
-Create dataset and access each record.
-
+### Create dataset and access each record
 @example
 	var ds = new JSDB.DS(sql,{
 		table:"test.x",
@@ -241,9 +236,8 @@ Create dataset and access each record.
 		rec: function each(rec) {console.log(rec)}
 	});
 	
+### Create dataset and access all records
 @example
-Create dataset and access all records:
-
 	var ds = new JSDB.DS(sql,{
 		table:"test.x",
 		trace:1,
@@ -270,21 +264,18 @@ Create dataset and access all records:
 		rec: (recs) => console.log(recs)
 	});
 	
+### Select ds record(s) matched by ds.where
 @example
-Select ds record(s) matched by ds.where:
-
 	ds.where = {ID: "ID=1"};
 	ds.rec = (rec) => console.log(rec);
 	
+### Delete ds record(s) matched by ds.where
 @example
-Delete ds record(s) matched by ds.where:
-
 	ds.where = {ID:"ID=2"}
 	ds.rec = null
 	
+### Update ds record(s) matched by ds.where
 @example
-Update ds record(s) matched by ds.where:
-
 	ds.where = null
 	ds.rec = [{a:1,b:2,ds:"hello"},{a:10,b:20,x:"there"}]
 	ds.where = {ID: "ID=3"}

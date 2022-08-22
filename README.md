@@ -90,7 +90,7 @@ This module documented in accordance with [jsdoc](https://jsdoc.app/).
 ```js
 const {neoThread, cyper, config} = JSDB = require("jsdb");
 
-## Configure the mysql emitters and database
+### Configure the mysql emitters and database
 ```
 **Example**  
 ```js
@@ -106,12 +106,12 @@ config({
 		}
 
 	});
+
+### Classic mysql access
 ```
 **Example**  
 ```js
-// Classic mysql access:
-
-	sqlThread( sql => {
+sqlThread( sql => {
 	
 		// classic query
 
@@ -129,12 +129,12 @@ config({
 		// there are also various enumerators and other utility functions.
 
 	});
+
+### Somewhat experimental method to access mysql datasets by context
 ```
 **Example**  
 ```js
-// Somewhat experimental method to access mysql datasets by context:
-
-	sqlThread( sql => {
+sqlThread( sql => {
 	
 		sql.context( {ds1:ATTRIBUTES, ds2:ATTRIBUTES, ... }, ctx => {
 
@@ -195,17 +195,17 @@ or group recording according to its index.browse (file navigation) or index.pivo
 
 Non-select queries will broadcast a change to all clients if a where.ID is presented (and an emiitter
 was configured), and will journal the change when jounalling is enabled.
+
+### Access the neo4j database
 ```
 **Example**  
 ```js
-// Access the neo4j database:
-
-	neoThread( neo => {	
+neoThread( neo => {	
 		neo.cypher( "...", [ ... ], (err,recs) => {
 		});
 	});
 
-Create dataset on a new sql thread.
+### Create dataset on a new sql thread
 ```
 **Example**  
 ```js
@@ -218,7 +218,7 @@ sqlThread( sql => {
 		
 	});
 	
-Create dataset and access each record.
+### Create dataset and access each record
 ```
 **Example**  
 ```js
@@ -248,12 +248,11 @@ var ds = new JSDB.DS(sql,{
 		rec: function each(rec) {console.log(rec)}
 	});
 	
+### Create dataset and access all records
 ```
 **Example**  
 ```js
-Create dataset and access all records:
-
-	var ds = new JSDB.DS(sql,{
+var ds = new JSDB.DS(sql,{
 		table:"test.x",
 		trace:1,
 		where:{
@@ -279,28 +278,25 @@ Create dataset and access all records:
 		rec: (recs) => console.log(recs)
 	});
 	
+### Select ds record(s) matched by ds.where
 ```
 **Example**  
 ```js
-Select ds record(s) matched by ds.where:
-
-	ds.where = {ID: "ID=1"};
+ds.where = {ID: "ID=1"};
 	ds.rec = (rec) => console.log(rec);
 	
+### Delete ds record(s) matched by ds.where
 ```
 **Example**  
 ```js
-Delete ds record(s) matched by ds.where:
-
-	ds.where = {ID:"ID=2"}
+ds.where = {ID:"ID=2"}
 	ds.rec = null
 	
+### Update ds record(s) matched by ds.where
 ```
 **Example**  
 ```js
-Update ds record(s) matched by ds.where:
-
-	ds.where = null
+ds.where = null
 	ds.rec = [{a:1,b:2,ds:"hello"},{a:10,b:20,x:"there"}]
 	ds.where = {ID: "ID=3"}
 	ds.rec = {a:100} 
