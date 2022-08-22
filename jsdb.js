@@ -86,13 +86,13 @@ This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 @requires [os](https://nodejs.org/docs/latest/api/)
 @requires [fs](https://nodejs.org/docs/latest/api/)
 
+## Require JSDB
 @example
-Require it:
 
 	const {neoThread, cyper, config} = JSDB = require("jsdb");
 
+## Configure the mysql emitters and database
 @example
-Configure the mysql emitters and database
 	config({ 
 	
 		emit:  (crude,parms) => {  // method to broadcast changes to other socket.io clients
@@ -107,7 +107,7 @@ Configure the mysql emitters and database
 	});
 
 @example
-Classic mysql access:
+// Classic mysql access:
 
 	sqlThread( sql => {
 	
@@ -129,7 +129,7 @@ Classic mysql access:
 	});
 
 @example
-Somewhat experimental method to access mysql datasets by context:
+// Somewhat experimental method to access mysql datasets by context:
 
 	sqlThread( sql => {
 	
@@ -194,16 +194,15 @@ Non-select queries will broadcast a change to all clients if a where.ID is prese
 was configured), and will journal the change when jounalling is enabled.
 
 @example
-Access the neo4j database:
+// Access the neo4j database:
 
 	neoThread( neo => {	
 		neo.cypher( "...", [ ... ], (err,recs) => {
 		});
 	});
 
+Create dataset on a new sql thread.
 @example
-Create dataset on a new sql thread:
-
 	sqlThread( sql => {
 	
 		var ds = new JSDB.DS(sql,{
@@ -213,9 +212,9 @@ Create dataset on a new sql thread:
 		
 	});
 	
-@example
-Create dataset and access each record:
+Create dataset and access each record.
 
+@example
 	var ds = new JSDB.DS(sql,{
 		table:"test.x",
 		limit:[0,1],

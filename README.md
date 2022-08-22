@@ -88,14 +88,13 @@ This module documented in accordance with [jsdoc](https://jsdoc.app/).
 	URL_LEXNEX=https:$KEY_LEXNEX//services-api.lexisnexis.com/v1/  
 **Example**  
 ```js
-Require it:
+const {neoThread, cyper, config} = JSDB = require("jsdb");
 
-	const {neoThread, cyper, config} = JSDB = require("jsdb");
+## Configure the mysql emitters and database
 ```
 **Example**  
 ```js
-Configure the mysql emitters and database
-	config({ 
+config({ 
 	
 		emit:  (crude,parms) => {  // method to broadcast changes to other socket.io clients
 		}, 
@@ -110,7 +109,7 @@ Configure the mysql emitters and database
 ```
 **Example**  
 ```js
-Classic mysql access:
+// Classic mysql access:
 
 	sqlThread( sql => {
 	
@@ -133,7 +132,7 @@ Classic mysql access:
 ```
 **Example**  
 ```js
-Somewhat experimental method to access mysql datasets by context:
+// Somewhat experimental method to access mysql datasets by context:
 
 	sqlThread( sql => {
 	
@@ -199,18 +198,18 @@ was configured), and will journal the change when jounalling is enabled.
 ```
 **Example**  
 ```js
-Access the neo4j database:
+// Access the neo4j database:
 
 	neoThread( neo => {	
 		neo.cypher( "...", [ ... ], (err,recs) => {
 		});
 	});
+
+Create dataset on a new sql thread.
 ```
 **Example**  
 ```js
-Create dataset on a new sql thread:
-
-	sqlThread( sql => {
+sqlThread( sql => {
 	
 		var ds = new JSDB.DS(sql,{
 			table:"test.x", 
@@ -219,12 +218,11 @@ Create dataset on a new sql thread:
 		
 	});
 	
+Create dataset and access each record.
 ```
 **Example**  
 ```js
-Create dataset and access each record:
-
-	var ds = new JSDB.DS(sql,{
+var ds = new JSDB.DS(sql,{
 		table:"test.x",
 		limit:[0,1],
 		rec: function each(rec) {console.log(rec)}
