@@ -55,8 +55,8 @@ Copy({
 }, String.prototype);
 
 /**
-Provides mysql and neo4j agnosticators as well task queueing.  This module 
-documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
+Provides mysql and neo4j agnosticators.
+This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 
 @module JSDB
 @author [ACMESDS](https://totemstan.github.io)

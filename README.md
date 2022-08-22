@@ -46,8 +46,8 @@ To configure and maintain **JSDB**:
 
 <dl>
 <dt><a href="#module_JSDB">JSDB</a></dt>
-<dd><p>Provides mysql and neo4j agnosticators as well task queueing.  This module 
-documented in accordance with <a href="https://jsdoc.app/">jsdoc</a>.</p>
+<dd><p>Provides mysql and neo4j agnosticators.
+This module documented in accordance with <a href="https://jsdoc.app/">jsdoc</a>.</p>
 </dd>
 </dl>
 
@@ -61,8 +61,8 @@ documented in accordance with <a href="https://jsdoc.app/">jsdoc</a>.</p>
 <a name="module_JSDB"></a>
 
 ## JSDB
-Provides mysql and neo4j agnosticators as well task queueing.  This module 
-documented in accordance with [jsdoc](https://jsdoc.app/).
+Provides mysql and neo4j agnosticators.
+This module documented in accordance with [jsdoc](https://jsdoc.app/).
 
 **Requires**: <code>module:[enums](https://github.com/totemstan/enums)</code>, <code>module:[cluster](https://nodejs.org/docs/latest/api/)</code>, <code>module:[os](https://nodejs.org/docs/latest/api/)</code>, <code>module:[fs](https://nodejs.org/docs/latest/api/)</code>  
 **Author**: [ACMESDS](https://totemstan.github.io)
