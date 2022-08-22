@@ -8,7 +8,7 @@ const
 	FS = require("fs"), 				//< filesystem and uploads
 
 	// totem
-	{ Copy,Each,Debug,Log,
+	{ Copy,Each,Start,Log,
 	 isFunction,isString,isArray,isEmpty,isObject,
 	 streamFile,
 	 sqlThread, neoThread, neo4jCon
@@ -85,6 +85,121 @@ documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 @requires [cluster](https://nodejs.org/docs/latest/api/)
 @requires [os](https://nodejs.org/docs/latest/api/)
 @requires [fs](https://nodejs.org/docs/latest/api/)
+
+@example
+Require it:
+
+	const {neoThread, cyper, config} = JSDB = require("jsdb");
+
+@example
+Configure the mysql emitters and database
+	config({ 
+	
+		emit:  (crude,parms) => {  // method to broadcast changes to other socket.io clients
+		}, 
+		
+		mysql : {	// 	database connection parms
+			host: ...
+			user: ...
+			pass: ...
+		}
+
+	});
+
+@example
+Classic mysql access:
+
+	sqlThread( sql => {
+	
+		// classic query
+
+		sql.query( "...", [ ... ], (err,info) => {
+		});
+		
+		// crud helpers:
+
+		sql.Index(ds, query, (keys,jsons) => { ... })
+		sql.Delete(ds,where, (err,info) => { ... })
+		sql.Update(ds,where,body,(err,info) => { ... })
+		sql.Insert (ds,body,(err,info) => { ... } )
+		sql.Select(ds, index, where, opts, (err,recs) => { ... })
+
+		// there are also various enumerators and other utility functions.
+
+	});
+
+@example
+Somewhat experimental method to access mysql datasets by context:
+
+	sqlThread( sql => {
+	
+		sql.context( {ds1:ATTRIBUTES, ds2:ATTRIBUTES, ... }, ctx => {
+
+			const {ds1,ds2, ... } = ctx;
+
+		});
+		
+	});
+
+where dsN are datasets having context ATTRIBUTES = {key:value, ... } described below. 
+
+Using dataset contexts, **JSDB** permits queries of the form:
+
+	ds.rec = { FIELD:VALUE, ... }			// update matched record(s) 
+	ds.rec = [ {...}, {...}, ... ]			// insert record(s)
+	ds.rec = null 							// delete matched record(s)
+	ds.rec = function CB(recs,me) {...}		// select matched record(s)
+
+or like this:
+
+	ds.res = callback() { ... }
+	ds.data = [ ... ]
+	ds.rec = CRUDE
+
+or in record-locked mode using:
+
+	ds.rec = "lock.select"
+	ds.rec = "lock.delete"
+	ds.rec = "lock.update"
+	ds.rec = "lock.insert"
+
+Dataset ATTRIBUTES = { key: value, ... } provide SQL agnostication:
+
+	table: 	DB.TABLE || TABLE
+	where: 	[ FIELD, FIELD, ... ] | { CLAUSE:null, nlp:PATTERN, bin:PATTERN, qex:PATTERN, has:PATTERN, like:PATTERN, FIELD:VALUE, FIELD:[MIN,MAX], ...} | CLAUSE
+	res: 	function CB(ds) {...}
+	having: [ FIELD, VALUE ] | [ FIELD, MIN, MAX ] | {FIELD:VALUE, CLAUSE:null, FIELD:[MIN,MAX], ...} | CLAUSE
+	order: 	[ {FIELD:ORDER, ...}, {property:FIELD, direction:ORDER}, FIELD, ...] | "FIELD, ..."
+	group: 	[ FIELD, ...] | "FIELD, ..."
+	limit: 	[ START, COUNT ] | {start:START, count:COUNT} | "START,COUNT"
+	index:	[ FIELD, ... ] | "FIELD, ... " | { has:PATTERN, nlp:PATTERN, bin:PATTERN, qex:PATTERN, browse:"FIELD,...", pivot: "FIELD,..." }
+
+In addition, update journalling, search tracking, query broadcasting, and auto field conversion is 
+supported using these ATTRIBUTES:
+
+	unsafeok: 	[true] | false 		// allow potentially unsafe queries
+	trace: [true] | false			// trace queries
+	journal: true | [false] 		// enable table journalling
+	search: "field,field,..." 		// define fulltext search fields
+	track: true | [false] 		// enable search tracking
+	ag: "..." 		// aggregate where/having with least(?,1), greatest(?,0), sum(?), ...
+
+The select query will callback the CB = [each || all || clone || trace] handler with each/all record(s) matched 
+by .where, indexed by  .index, ordered by .order ordering, grouped by .group, filtered by .having 
+and limited by .limit ATTRIBUTES.  Select will search for PATTERN 
+using its index.nlp (natural language parse), index.bin (binary mode), index.qex (query expansion), 
+or group recording according to its index.browse (file navigation) or index.pivot (joint statistics).
+
+Non-select queries will broadcast a change to all clients if a where.ID is presented (and an emiitter
+was configured), and will journal the change when jounalling is enabled.
+
+@example
+Access the neo4j database:
+
+	neoThread( neo => {	
+		neo.cypher( "...", [ ... ], (err,recs) => {
+		});
+	});
 
 @example
 Create dataset on a new sql thread:
@@ -1780,16 +1895,8 @@ neoThread( neo => {
 @class JSDB.Unit_Tests_Use_Cases
 */
 
-switch ( process.argv[2] ) { //< unit tests
-	case "$":
-	case "B$":
-		Trace("$", {
-			usage: "node jsdb.js [B$ || ...]"
-		});
-		Debug(JSDB);
-		break;
-		
-	case "B1":
+Start( "jsdb", {
+	B1: () =>
 		JSDB.config( null, sql => {
 			neoThread( neo => {	// add prototypes and test neo4j connection
 				if (false) // test connection
@@ -1817,11 +1924,9 @@ switch ( process.argv[2] ) { //< unit tests
 						Log( err || "CLEAR GRAPH DB" );
 					});  
 			});
-		});
-
-		break;
-		
-	case "B2":
+		}),
+	
+	B2: () =>
 		/*
 		opts = {
 			// login credentials
@@ -1850,9 +1955,6 @@ switch ( process.argv[2] ) { //< unit tests
 		*/
 		JSDB.config( null, sql => {
 			Trace("SQLDB "+(sql?"connected":"disconnected"));
-		});
-		
-		break;
-
-}
+		})
+});
 
