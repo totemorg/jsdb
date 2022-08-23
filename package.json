@@ -1,12 +1,12 @@
 {
   "name": "jsdb",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "/** @class DSVAR  \t[SourceForge](https://sourceforge.net)  \t[github](https://github.com/acmesds/jsdb.git)  \t[geointapps](https://git.geointapps.org/acmesds/jsdb) \t[gitlab](https://gitlab.weat.nga.ic.gov/acmesds/jsdb.git)",
   "main": "jsdb.js",
   "scripts": {
     "verminor": "npm version minor -f",
     "vermajor": "npm version major -f",
-    "test": "node jsdb",
+    "start": "node jsdb.js",
     "redoc": "jsdoc2md --template README.hbs --files jsdb.js >README.md; git commit -am 'redoc'; git  push agent master"
   },
   "repository": {
