@@ -87,12 +87,8 @@ This module documented in accordance with [jsdoc]{@link https://jsdoc.app/}.
 @requires [fs](https://nodejs.org/docs/latest/api/)
 
 @example
-### Require JSDB
-	const {neoThread, cyper, config} = JSDB = require("jsdb");
-
-@example
-### Configure the mysql emitters and database
-	config({ 
+### Acquire JSDB and optionally configures its emitters and database
+	const {neoThread, cyper, config} = JSDB = require("jsdb").config({ 
 	
 		emit:  (crude,parms) => {  // method to broadcast changes to other socket.io clients
 		}, 
@@ -296,11 +292,12 @@ Reserved for dataset attributes
 /**
 Configure JSDB with provided options with optional callback
 @param {Object} opts Options
-@param {Function} cb callback(sql || null) with sql pooling thread
 */		
 
 	config: (opts,cb) => {  
 		if (opts) Copy(opts,JSDB,".");
+		if (cb) sqlThread( sql => cb(sql) );
+		return JSDB;
 	},
 	
 /**

@@ -4,12 +4,14 @@ Provides mysql and neo4j agnosticators, data stashing and ingesting methods.
 
 ## Usage
 
-Require and optionally configure **JSDB** as follows:
+Acquire and optionally configure **JSDB** as follows:
 
 	const JSDB = require("jsdb").config({
 		key: value, 						// set key
 		"key.key": value, 					// indexed set
 		"key.key.": value					// indexed append
+	}, sql => {
+		Log( sql ? "sql connected" : "sql connection failed" );
 	});
 	
 where its configuration keys (
@@ -26,16 +28,18 @@ See the Program Reference for examples.
 	
 ## Installation
 
-Clone **JSDB** from one of its REPOs:
+Clone **JSDB** and its dependencies from one of its REPOs:
 
 	cd MYPROJECT
+	git clone REPO/totemstan/jsdb
 	git clone REPO/totemstan/enums
 
-To configure and maintain **JSDB**:
+To start and manage **JSDB**:
 
-	npm test [ ? | ... ]				# unit test
-	npm run [ edit | start ]			# Configure environment
-	npm run [ prmprep | prmload ]		# Revise PRM
+	npm run start [ ? | $ | ...]	# Unit test
+	npm run verminor				# Roll minor version
+	npm run vermajor				# Roll major version
+	npm run redoc					# Regen documentation
 
 ## Program Reference
 <details>

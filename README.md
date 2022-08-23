@@ -4,12 +4,14 @@ Provides mysql and neo4j agnosticators, data stashing and ingesting methods.
 
 ## Usage
 
-Require and optionally configure **JSDB** as follows:
+Acquire and optionally configure **JSDB** as follows:
 
 	const JSDB = require("jsdb").config({
 		key: value, 						// set key
 		"key.key": value, 					// indexed set
 		"key.key.": value					// indexed append
+	}, sql => {
+		Log( sql ? "sql connected" : "sql connection failed" );
 	});
 	
 where its configuration keys (
@@ -26,16 +28,18 @@ See the Program Reference for examples.
 	
 ## Installation
 
-Clone **JSDB** from one of its REPOs:
+Clone **JSDB** and its dependencies from one of its REPOs:
 
 	cd MYPROJECT
+	git clone REPO/totemstan/jsdb
 	git clone REPO/totemstan/enums
 
-To configure and maintain **JSDB**:
+To start and manage **JSDB**:
 
-	npm test [ ? | ... ]				# unit test
-	npm run [ edit | start ]			# Configure environment
-	npm run [ prmprep | prmload ]		# Revise PRM
+	npm run start [ ? | $ | ...]	# Unit test
+	npm run verminor				# Roll minor version
+	npm run vermajor				# Roll major version
+	npm run redoc					# Regen documentation
 
 ## Program Reference
 <details>
@@ -88,13 +92,8 @@ This module documented in accordance with [jsdoc](https://jsdoc.app/).
 	URL_LEXNEX=https:$KEY_LEXNEX//services-api.lexisnexis.com/v1/  
 **Example**  
 ```js
-### Require JSDB
-	const {neoThread, cyper, config} = JSDB = require("jsdb");
-```
-**Example**  
-```js
-### Configure the mysql emitters and database
-	config({ 
+### Acquire JSDB and optionally configures its emitters and database
+	const {neoThread, cyper, config} = JSDB = require("jsdb").config({ 
 	
 		emit:  (crude,parms) => {  // method to broadcast changes to other socket.io clients
 		}, 
@@ -306,7 +305,7 @@ was configured), and will journal the change when jounalling is enabled.
         * [.queues](#module_JSDB.queues)
         * [.errors](#module_JSDB.errors)
         * [.attrs](#module_JSDB.attrs)
-        * [.config(opts, cb)](#module_JSDB.config)
+        * [.config(opts)](#module_JSDB.config)
         * [.sqlEach()](#module_JSDB.sqlEach)
         * [.sqlAll()](#module_JSDB.sqlAll)
         * [.sqlFirst()](#module_JSDB.sqlFirst)
@@ -379,7 +378,7 @@ Reserved for dataset attributes
 **Cfg**: <code>Object</code>  
 <a name="module_JSDB.config"></a>
 
-### JSDB.config(opts, cb)
+### JSDB.config(opts)
 Configure JSDB with provided options with optional callback
 
 **Kind**: static method of [<code>JSDB</code>](#module_JSDB)  
@@ -387,7 +386,6 @@ Configure JSDB with provided options with optional callback
 | Param | Type | Description |
 | --- | --- | --- |
 | opts | <code>Object</code> | Options |
-| cb | <code>function</code> | callback(sql || null) with sql pooling thread |
 
 <a name="module_JSDB.sqlEach"></a>
 
