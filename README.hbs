@@ -1,4 +1,4 @@
-# [JSDB](https://github.com/totemstan/jsdb)
+# [JSDB](https://github.com/totem-man/jsdb)
 
 Provides mysql and neo4j agnosticators, data stashing and ingesting methods.
 
@@ -14,15 +14,15 @@ Acquire and optionally configure **JSDB** as follows:
 		Log( sql ? "sql connected" : "sql connection failed" );
 	});
 	
-where configuration keys follow **ENUMS** [deep copy conventions](##-Program-Reference)
+where configuration keys follow [ENUMS deep copy conventions](https://github.com/totem-man/enums)
 	
 ## Installation
 
 Clone **JSDB** and its dependencies from one of its REPOs:
 
 	cd MYPROJECT
-	git clone REPO/totemstan/jsdb
-	git clone REPO/totemstan/enums
+	git clone REPO/totem-man/jsdb
+	git clone REPO/totem-man/enums
 
 To start and manage **JSDB**:
 
