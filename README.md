@@ -14,7 +14,7 @@ Acquire and optionally configure **JSDB** as follows:
 		Log( sql ? "sql connected" : "sql connection failed" );
 	});
 	
-where configuration keys follow **ENUMS** [deep copy conventions](## Program Reference)
+where configuration keys follow **ENUMS** [deep copy conventions](##-Program-Reference)
 	
 ## Installation
 
