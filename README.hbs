@@ -16,16 +16,9 @@ Acquire and optionally configure **JSDB** as follows:
 	
 where configuration keys follow [ENUMS deep copy conventions](https://github.com/totem-man/enums)
 	
-## Installation
+## Manage
 
-Clone **JSDB** and its dependencies from one of its REPOs:
-
-	cd MYPROJECT
-	git clone REPO/totem-man/jsdb
-	git clone REPO/totem-man/enums
-
-To start and manage **JSDB**:
-
+	npm install @totemstan/jsdb		# Install
 	npm run start [ ? | $ | ...]	# Unit test
 	npm run verminor				# Roll minor version
 	npm run vermajor				# Roll major version

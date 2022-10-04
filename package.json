@@ -1,5 +1,5 @@
 {
-  "name": "jsdb",
+  "name": "@totemstan/jsdb",
   "version": "1.9.0",
   "description": "/** @class DSVAR  \t[SourceForge](https://sourceforge.net)  \t[github](https://github.com/acmesds/jsdb.git)  \t[geointapps](https://git.geointapps.org/acmesds/jsdb) \t[gitlab](https://gitlab.weat.nga.ic.gov/acmesds/jsdb.git)",
   "main": "jsdb.js",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/ACMESDS/jsdb/issues"
   },
-  "homepage": "https://github.com/ACMESDS/jsdb#readme"
+  "homepage": "https://github.com/ACMESDS/jsdb#readme",
+  "dependencies": {
+    "@totemstan/enums": "^1.14.0"
+  }
 }
