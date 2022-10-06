@@ -1,6 +1,6 @@
 {
   "name": "@totemstan/jsdb",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "/** @class DSVAR  \t[SourceForge](https://sourceforge.net)  \t[github](https://github.com/acmesds/jsdb.git)  \t[geointapps](https://git.geointapps.org/acmesds/jsdb) \t[gitlab](https://gitlab.weat.nga.ic.gov/acmesds/jsdb.git)",
   "main": "jsdb.js",
   "scripts": {
