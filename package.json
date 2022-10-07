@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/ACMESDS/jsdb#readme",
   "dependencies": {
-    "@totemstan/enums": "^1.16.0"
+    "@totemstan/enums": "^1.17.0"
   }
 }
