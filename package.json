@@ -1,6 +1,6 @@
 {
   "name": "@totemorg/jsdb",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "description": "Provided interface to mysql and neo4j databases",
   "main": "jsdb.js",
   "scripts": {
@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/ACMESDS/jsdb#readme",
   "dependencies": {
-    "@totemorg/enums": "^1.17.0"
+    "@totemorg/enums": "^1.21.0"
   }
 }
