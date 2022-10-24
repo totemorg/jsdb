@@ -827,6 +827,10 @@ function Index(ds, query, cb) {
 			case "!not":
 				wilds.push( `Field NOT LIKE ${escape(src.parseWild())}` ); 
 				break;
+			
+			case "!list":
+				keys.push( `group_concat(DISTINCT ${escapeId(src)} SEPARATOR ',') AS ${escapeId(src)}` );
+				break;
 				
 			default:
 				if ( get.startsWith("json_extract") ) {
